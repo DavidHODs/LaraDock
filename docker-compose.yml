@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  database:
+    image: mysql:latest
+    ports:
+      - "3307:3306"
+    volumes:
+    - laravelData:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: laraveldb
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: password
+
+  app:
+    depends_on:
+      - database
+    image: laraimage:latest
+    command: >
+      bash -c "cd /var/www/html/laravel
+      && sudo php artisan migrate *phpcli"
+    ports:
+      - "80:80"
+    restart: always
+
+volumes:
+  laravelData:
