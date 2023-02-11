@@ -3,27 +3,40 @@ version: '3'
 services:
   database:
     image: mysql:latest
+    container_name: database
     ports:
       - "3307:3306"
-    volumes:
-    - laravelData:/var/lib/mysql
+    # volumes:
+    # - laravelData:/var/lib/mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: password
+      # MYSQL_ALLOW_EMPTY_PASSWORD: 1
       MYSQL_DATABASE: laraveldb
-      MYSQL_USER: laravel
-      MYSQL_PASSWORD: password
+      MYSQL_ROOT_USER: root
+      # MYSQL_USER: laravel
+      # MYSQL_PASSWORD: password
 
   app:
     depends_on:
       - database
     image: laraimage:latest
+    container_name: app
     command: >
-      bash -c "cd /var/www/html/laravel
-      && sudo php artisan migrate *phpcli"
+      bash -c "
+      cd /var/www/html/laravel &
+      php artisan key:generate & 
+      php artisan migrate --seed
+      "
+    environment:
+      MYSQL_HOST: database 
+      MYSQL_ROOT_USER: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+      MYSQL_DB: laraveldb
     ports:
       - "80:80"
     restart: always
 
-volumes:
-  laravelData:
+# volumes:
+#   laravelData:
