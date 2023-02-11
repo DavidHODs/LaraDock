@@ -1,5 +1,3 @@
-# FROM ubuntu:latest
-
 FROM php:8.1-apache
 
 RUN apt-get update -y && apt install -y --no-install-recommends \
@@ -24,5 +22,3 @@ RUN chown -R www-data:www-data /var/www/html/laravel && \
     a2ensite laravel.conf && \
     a2enmod rewrite && \ 
     service apache2 start
-    
-CMD  ["/bin/sh", "-c"]
