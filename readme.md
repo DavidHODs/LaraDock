@@ -13,13 +13,13 @@ To replicate this in your local setup.
 
 - Clone this repo
 - cd into project folder path
-- execute <docker build -t laraimage:latest .> so as to have docker build the image locally. If you change the image name or tag, you also have to make changes in docker-compose.yml
-- execute <docker-compose -f docker-compose.yml up> to get the conatiners running
+- execute <"docker build -t laraimage:latest ."> so as to have docker build the image locally. If you change the image name or tag, you also have to make changes in docker-compose.yml
+- execute <"docker-compose -f docker-compose.yml up"> to get the conatiners running
 - allow the database container to get fully set up then open another terminal and execute the following commands
-- <docker exec -it app bash>
-- <php artisan migrate>
-- <php artisan migrate --seed>
-- <service apache2 start>
+- <"docker exec -it app bash">
+- <"php artisan migrate">
+- <"php artisan migrate --seed">
+- <"service apache2 start">
 
 ## Security Fixes
 
