@@ -11,9 +11,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: password
-      # MYSQL_ALLOW_EMPTY_PASSWORD: 1
       MYSQL_DATABASE: laraveldb
-      # MYSQL_ROOT_USER: root
       MYSQL_USER: laravel
       MYSQL_PASSWORD: password
 
@@ -22,12 +20,6 @@ services:
       - database
     image: laraimage:latest
     container_name: app
-    command: >
-      bash -c "
-      cd /var/www/html/laravel &
-      php artisan key:generate & 
-      php artisan migrate --seed
-      "
     ports:
       - "80:80"
     restart: always

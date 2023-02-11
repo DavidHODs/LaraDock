@@ -11,7 +11,8 @@ WORKDIR /var/www/html/laravel
 ADD ./laravel /var/www/html/laravel
 ADD laravel.conf /etc/apache2/sites-available/
 
-RUN chown -R www-data:www-data /var/www/html/laravel && \
+RUN php artisan key:generate && \
+    chown -R www-data:www-data /var/www/html/laravel && \
     chmod -R 775 /var/www/html/laravel/storage && \
     a2dissite 000-default.conf && \
     a2ensite laravel.conf && \
