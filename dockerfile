@@ -1,20 +1,29 @@
 FROM ubuntu:latest
 
-FROM webdevops/php-apache:latest
+FROM php:8.0-apache
 
-RUN apt update && apt upgrade -y && \
-    curl -sS https://getcomposer.org/installer | php && \
-    mv composer.phar  /usr/local/bin/composer && \
-    chmod a+x /usr/local/bin/composer
+# FROM httpd:2.4
 
-RUN mkdir -p /LaraDock/ && \
-    mv laravel /LaraDock && cd /LaraDock/laravel && \
-    composer install && cd ~ 
+RUN apache2 -v
 
-RUN cd /LaraDock && \
-    mv laravel /var/www/html && \
-    cd /var/www/html/laravel && \ 
-    chown -R www-data:www-data /var/www/html/laravel && \
+
+RUN apt-get update -y && apt upgrade -y
+
+WORKDIR /var/www/html
+
+RUN mkdir -p laravel/ 
+
+ADD ./laravel /var/www/html/laravel
+
+ADD laravel.conf /etc/apache2/sites-available/
+
+RUN chown -R www-data:www-data /var/www/html/laravel && \
     chmod -R 775 /var/www/html/laravel/storage
 
-CMD [ "/bin/sh" ]
+RUN service apache2 start && service apache2 status
+
+RUN a2dissite 000-default.conf && \
+    a2ensite laravel.conf && \
+    a2enmod rewrite && \ 
+    service apache2 start
+# CMD [ "/bin/sh" ]
