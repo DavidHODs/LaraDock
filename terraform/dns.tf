@@ -10,6 +10,7 @@ resource "aws_route53_record" "docker-53" {
   name    = "terraform-test.${data.aws_route53_zone.docker-zone.name}"
   type    = "A"
   allow_overwrite = true
+  ttl = 300
   records = [aws_eip.docker_eip.public_ip]
 }
 
