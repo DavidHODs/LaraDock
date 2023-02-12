@@ -12,3 +12,8 @@ resource "aws_route53_record" "docker-53" {
   allow_overwrite = true
   records = [aws_eip.docker_eip.public_ip]
 }
+
+resource "aws_eip" "docker_eip" {
+  instance = aws_instance.docker_ec2.id
+  vpc = true
+}
