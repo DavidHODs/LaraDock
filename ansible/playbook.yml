@@ -16,8 +16,12 @@
           - apt update -y 
           - apt upgrade -y
 
-      - name: Install Docker on Server
-        command: curl -fsSL https://get.docker.com -o get-docker.sh && sh ./get-docker.sh --dry-run
+      - name: Install Docker Instalation Script
+        ansible.buitlin.get_url:
+          url: -fsSL https://get.docker.com -o get-docker.sh &&
+
+      - name: Execute Downloaded Docker Installation Script
+        command: sh ./get-docker.sh --dry-run
 
       - name: "Create Project Folder"
         ansible.builtin.file:
