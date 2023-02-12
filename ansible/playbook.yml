@@ -7,7 +7,6 @@
   vars:
     path: "/LaraDock"
 
-
   tasks:
     - block:
       - name: Update Packages
@@ -16,18 +15,20 @@
           - apt update -y 
           - apt upgrade -y
 
-      - name: Install Docker Instalation Script
-        ansible.buitlin.get_url:
-          url: -fsSL https://get.docker.com -o get-docker.sh &&
-
-      - name: Execute Downloaded Docker Installation Script
-        command: sh ./get-docker.sh --dry-run
-
       - name: "Create Project Folder"
         ansible.builtin.file:
           path: "{{ path }}"
           state: directory
           mode: "0755"
+
+      - name: Install Docker on Server
+        command: "{{ item }}"
+        with_items:
+          - apt  install docker.io 
+          - apt  install docker-compose
+          - docker -v
+        register: dockerInstallation
+      - debug: var=dockerInstallation
 
       - name: "Clone Project Folder and Execute Docker Commands"
         command: "{{ item }}"
